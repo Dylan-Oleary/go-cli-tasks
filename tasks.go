@@ -16,6 +16,29 @@ type task struct {
 }
 type tasks []task
 
+// # Adding a new task
+// task-cli add "Buy groceries"
+// # Output: Task added successfully (ID: 1)
+func (t tasks) add(description string) {
+
+}
+
+// task-cli delete 1
+func (t tasks) delete(id string) {
+
+}
+
+// task-cli update 1 "Buy groceries and cook dinner"
+func (t tasks) update(id string) {
+
+}
+
+// task-cli mark-in-progress 1
+// task-cli mark-done 1
+func (t tasks) updateStatus(status string) {
+
+}
+
 func (t tasks) list(filter ...string) {
     if(filter == nil) {
         printTasks(t)
