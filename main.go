@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-    tasks := readTasksFromFile("tasks.json")
+    t := readTasksFromFile("tasks.json")
 
     // Read CLI positional arguments
     _, err := getInputArgs()
@@ -17,9 +17,9 @@ func main() {
         os.Exit(1)
     }
 
+    // TODO
     // Action Handler
-
-    tasks.list()
+    t.list()
 }
 
 func getInputArgs() ([]string, error) {
