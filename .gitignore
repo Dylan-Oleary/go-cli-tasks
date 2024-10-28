@@ -25,4 +25,4 @@ go.work.sum
 .env
 
 # output json
-tasks.json
+data.json

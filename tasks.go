@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 )
 
 type task struct {
@@ -10,17 +11,25 @@ type task struct {
     Description string `json:"description"`
     // TODO: Enums in Go?
     Status string `json:"status"`
-    // TODO: Datetime in Go?
-    CreatedAt string `json:"createdAt"`
-    UpdatedAt string `json:"updatedAt"`
+    CreatedAt time.Time `json:"createdAt"`
+    UpdatedAt time.Time `json:"updatedAt"`
 }
 type tasks []task
 
-// # Adding a new task
-// task-cli add "Buy groceries"
-// # Output: Task added successfully (ID: 1)
-func (t tasks) add(description string) {
+func (t tasks) add(value string) {
+    taskToAdd := task{
+        ID: "1",
+        Description: value,
+        Status: "todo",
+        CreatedAt: time.Now().UTC(),
+        UpdatedAt: time.Now().UTC(),
+    }
 
+    t = append(t, taskToAdd)
+
+    writeTasksToFile(t)
+
+    fmt.Printf("Task added successfully (ID: %s)", taskToAdd.ID)
 }
 
 // task-cli delete 1
@@ -28,9 +37,22 @@ func (t tasks) delete(id string) {
 
 }
 
-// task-cli update 1 "Buy groceries and cook dinner"
-func (t tasks) update(id string) {
+func (t tasks) update(id string, value string) {
+    for i := range t {
+        if(t[i].ID == id) {
+            pointer := &t[i]
 
+            pointer.Description = value
+            pointer.UpdatedAt =  time.Now().UTC()
+
+            fmt.Printf("Task (ID: %s) updated successfully)", id)
+            writeTasksToFile(t)
+
+            return
+        }
+    }
+
+    fmt.Printf("Task (ID: %s) not found)", id)
 }
 
 // task-cli mark-in-progress 1

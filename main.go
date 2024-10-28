@@ -7,19 +7,44 @@ import (
 )
 
 func main() {
-    t := readTasksFromFile("tasks.json")
+    t := readTasksFromFile()
 
     // Read CLI positional arguments
-    _, err := getInputArgs()
+    args, err := getInputArgs()
 
     if err != nil {
         fmt.Println("Error:", err)
         os.Exit(1)
     }
 
-    // TODO
-    // Action Handler
-    t.list()
+    command := args[0]
+    data := args[1:]
+
+    switch command {
+        case "add":
+            if len(data) > 0 {
+                t.add(data[0])
+            } else {
+                fmt.Println("Expected a value when attempting to add a value")
+                os.Exit(1)
+            }
+        case "list":
+            if len(data) > 0 {
+                t.list(data[0])
+            } else {
+                t.list()
+            }
+        case "update":
+            if len(data) == 2 {
+                t.update(data[0], data[1])
+            } else {
+                fmt.Println("Invalid arguments passed when updating task")
+                os.Exit(1)
+            }
+        default:
+            fmt.Println("Unexpected action passed")
+            os.Exit(1)
+    }
 }
 
 func getInputArgs() ([]string, error) {
@@ -36,5 +61,5 @@ func getInputArgs() ([]string, error) {
         return nil, errors.New("Invalid action passed " + args[1])
     }
 
-    return os.Args, nil
+    return os.Args[1:], nil
 }

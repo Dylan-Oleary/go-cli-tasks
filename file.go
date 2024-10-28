@@ -7,20 +7,22 @@ import (
 	"os"
 )
 
-func readTasksFromFile(filePath string) tasks {
-    _, checkIfFileExistsError := os.Stat(filePath)
+const FILE_NAME = "data.json"
+
+func readTasksFromFile() tasks {
+    _, checkIfFileExistsError := os.Stat(FILE_NAME)
 
     if errors.Is(checkIfFileExistsError, os.ErrNotExist) {
-        fmt.Println("Unable to find file:", filePath, "– creating new file.")
+        fmt.Println("Unable to find file:", FILE_NAME, "– creating new file.")
 
         data := []byte("[]")
-        os.WriteFile(filePath, data, 0666)
+        os.WriteFile(FILE_NAME, data, 0666)
     }
 
-    bytes, readFileError := os.ReadFile(filePath)
+    bytes, readFileError := os.ReadFile(FILE_NAME)
     
     if readFileError != nil {
-        fmt.Println("Failed to read file:", filePath)
+        fmt.Println("Failed to read file:", FILE_NAME)
         fmt.Println("Error:", readFileError)
         os.Exit(1)
     }
@@ -29,7 +31,7 @@ func readTasksFromFile(filePath string) tasks {
     jsonParseError := json.Unmarshal(bytes, &tasks)
 
     if jsonParseError != nil {
-        fmt.Println("Failed to parse file:", filePath)
+        fmt.Println("Failed to parse file:", FILE_NAME)
         fmt.Println("Error:", jsonParseError)
         os.Exit(1)
     }
@@ -37,7 +39,7 @@ func readTasksFromFile(filePath string) tasks {
     return tasks
 }
 
-func writeTasksToFile(filePath string, t tasks) {
+func writeTasksToFile(t tasks) {
     data, byteConversionError := json.Marshal(t)
 
     if byteConversionError != nil {
@@ -46,10 +48,10 @@ func writeTasksToFile(filePath string, t tasks) {
         os.Exit(1)
     }
 
-    writeFileError := os.WriteFile(filePath, []byte(data), 0666)
+    writeFileError := os.WriteFile(FILE_NAME, []byte(data), 0666)
 
     if writeFileError != nil {
-        fmt.Println("Failed to write new tasks to file:", filePath)
+        fmt.Println("Failed to write new tasks to file:", FILE_NAME)
         fmt.Println("Error:", writeFileError)
         os.Exit(1)
     }
