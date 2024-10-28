@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"time"
 )
 
@@ -17,8 +18,23 @@ type task struct {
 type tasks []task
 
 func (t tasks) add(value string) {
+    var id string
+
+    if(len(t) == 0) {
+        id = "1"
+    } else {
+        last, err := strconv.Atoi(t[len(t) -1].ID)
+
+        if err != nil {
+            fmt.Println("Error:", err)
+            os.Exit(1)
+        }
+
+        id = strconv.Itoa(last + 1)
+    }
+
     taskToAdd := task{
-        ID: "1",
+        ID: id,
         Description: value,
         Status: "todo",
         CreatedAt: time.Now().UTC(),
