@@ -155,41 +155,41 @@ func processCommand(c command, t tasks) error {
 
     switch action {
         case "add":
-            if len(args) > 0 {
-                t.add(args[0])
-            } else {
+            if len(args) == 0 {
                 return errors.New("Failed to add task due to missing task value")
             }
+
+            t.add(args[0])
         case "delete":
-            if len(args) > 0 {
-                t.delete(args[0])
-            } else {
+            if len(args) == 0 {
                 return errors.New("Failed to delete task due to missing task ID")
             }
+
+            t.delete(args[0])
         case "list":
-            if len(args) > 0 {
+            if len(args) == 0 {
                 t.list(args[0])
-            } else {
-                t.list()
             }
+
+            t.list()
         case "mark-done":
-            if len (args) > 0 {
-                t.markDone(args[0])
-            } else {
+            if len(args) == 0 {
                 return errors.New("Failed to mark task as 'done' due to missing task ID")
             }
+
+            t.markDone(args[0])
         case "mark-in-progress":
-            if len (args) > 0 {
-                t.markInProgress(args[0])
-            } else {
+            if len(args) == 0 {
                 return errors.New("Failed to mark task as 'in-progress' due to missing task ID")
             }
+
+            t.markInProgress(args[0])
         case "update":
-            if len(args) >= 2 {
-                t.update(args[0], args[1])
-            } else {
+            if len(args) < 2 {
                 return errors.New("Failed to update task due to missing values")
             }
+
+            t.update(args[0], args[1])
         default:
             return errors.New("Invalid action passed")
     }
