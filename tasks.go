@@ -48,9 +48,19 @@ func (t tasks) add(value string) {
     fmt.Printf("Task added successfully (ID: %s)", taskToAdd.ID)
 }
 
-// task-cli delete 1
 func (t tasks) delete(id string) {
+    for index, task := range t {
+        if(task.ID == id) {
+            t = append(t[:index], t[index + 1:]...)
+            writeTasksToFile(t)
 
+            fmt.Printf("Task (ID: %s) successfully deleted", id)
+            return
+        }
+    }
+
+    fmt.Printf("Task (ID: %s) does not exist", id)
+    return
 }
 
 func (t tasks) update(id string, value string) {
@@ -71,10 +81,40 @@ func (t tasks) update(id string, value string) {
     fmt.Printf("Task (ID: %s) not found)", id)
 }
 
-// task-cli mark-in-progress 1
-// task-cli mark-done 1
-func (t tasks) updateStatus(status string) {
+func (t tasks) markDone(id string) {
+    for i:= range t {
+        if(t[i].ID == id) {
+            pointer := &t[i]
 
+            pointer.Status = "done"
+
+            fmt.Printf("Task (ID: %s) marked as done", id)
+            writeTasksToFile(t)
+
+            return
+        }
+    }
+
+    fmt.Printf("Task (ID: %s) does not exist", id)
+    return
+}
+
+func (t tasks) markInProgress(id string) {
+    for i:= range t {
+        if(t[i].ID == id) {
+            pointer := &t[i]
+
+            pointer.Status = "in-progress"
+
+            fmt.Printf("Task (ID: %s) marked as in-progress", id)
+            writeTasksToFile(t)
+
+            return
+        }
+    }
+
+    fmt.Printf("Task (ID: %s) does not exist", id)
+    return
 }
 
 func (t tasks) list(filter ...string) {

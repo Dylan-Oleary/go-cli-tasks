@@ -9,7 +9,6 @@ import (
 func main() {
     t := readTasksFromFile()
 
-    // Read CLI positional arguments
     args, err := getInputArgs()
 
     if err != nil {
@@ -28,11 +27,32 @@ func main() {
                 fmt.Println("Expected a value when attempting to add a value")
                 os.Exit(1)
             }
+        case "delete":
+            if len (data) > 0 {
+                t.delete(data[0])
+            } else {
+                fmt.Println("Expected an id when deleting a task")
+                os.Exit(1)
+            }
         case "list":
             if len(data) > 0 {
                 t.list(data[0])
             } else {
                 t.list()
+            }
+        case "mark-done":
+            if len (data) > 0 {
+                t.markDone(data[0])
+            } else {
+                fmt.Println("Expected an id when marking task as done")
+                os.Exit(1)
+            }
+        case "mark-in-progress":
+            if len (data) > 0 {
+                t.markInProgress(data[0])
+            } else {
+                fmt.Println("Expected an id when marking task as in-progress")
+                os.Exit(1)
             }
         case "update":
             if len(data) == 2 {
