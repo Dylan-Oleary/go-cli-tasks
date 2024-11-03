@@ -70,6 +70,11 @@ func main() {
 func getInputArgs() ([]string, error) {
     args := os.Args
 
+    if len(args) == 1 {
+        printHelp()
+        os.Exit(1)
+    }
+
     if len(args) > 4 {
         return nil, errors.New("Too many arguments passed")
     }
@@ -82,4 +87,20 @@ func getInputArgs() ([]string, error) {
     }
 
     return os.Args[1:], nil
+}
+
+func printHelp() {
+    fmt.Println("Usage:")
+    fmt.Println("  task-cli <action> [arguments]")
+    fmt.Println("")
+    fmt.Println("Available actions:")
+    fmt.Println("  add <task>  Add a new task -- task-cli add \"Eat pizza\"")
+    fmt.Println("  delete <id>  Delete an existing task -- task-cli delete 1")
+    fmt.Println("  list  List all tasks -- task-cli list")
+    fmt.Println("    list done  List all tasks marked as \"done\" -- task-cli list done")
+    fmt.Println("    list in-progress  List all tasks marked as \"in-progress\" -- task-cli list in-progess")
+    fmt.Println("  mark-done <id>  Mark an existing task as done -- task-cli mark-done 2")
+    fmt.Println("  mark-on-progress <id>  Mark an existing task as in-progress -- task-cli mark-in-progress 3")
+    fmt.Println("  update <id> <task>  Update an existing task -- task-cli update 1 \"Eat chocolate\"")
+    fmt.Println("")
 }
