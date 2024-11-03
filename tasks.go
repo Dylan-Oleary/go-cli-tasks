@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"strconv"
@@ -148,16 +149,70 @@ func (t tasks) list(filter ...string) {
     return
 }
 
+func processCommand(c command, t tasks) error {
+    action := c.action
+    args := c.arguments
+
+    switch action {
+        case "add":
+            if len(args) > 0 {
+                t.add(args[0])
+            } else {
+                return errors.New("Failed to add task due to missing task value")
+            }
+        case "delete":
+            if len(args) > 0 {
+                t.delete(args[0])
+            } else {
+                return errors.New("Failed to delete task due to missing task ID")
+            }
+        case "list":
+            if len(args) > 0 {
+                t.list(args[0])
+            } else {
+                t.list()
+            }
+        case "mark-done":
+            if len (args) > 0 {
+                t.markDone(args[0])
+            } else {
+                return errors.New("Failed to mark task as 'done' due to missing task ID")
+            }
+        case "mark-in-progress":
+            if len (args) > 0 {
+                t.markInProgress(args[0])
+            } else {
+                return errors.New("Failed to mark task as 'in-progress' due to missing task ID")
+            }
+        case "update":
+            if len(args) >= 2 {
+                t.update(args[0], args[1])
+            } else {
+                return errors.New("Failed to update task due to missing values")
+            }
+        default:
+            return errors.New("Invalid action passed")
+    }
+
+    return nil
+}
+
 func printTasks(t tasks) {
     fmt.Println("Tasks")
-    fmt.Println()
+    fmt.Println("-----")
+    fmt.Println("")
 
     for _, task := range t {
-        fmt.Println("ID:", task.ID)
-        fmt.Println("Description:", task.Description)
-        fmt.Println("Status:", task.Status)
-        fmt.Println("Created At:", task.CreatedAt)
-        fmt.Println("Updated At:", task.UpdatedAt)
+        if(task.Status == "done"){
+            fmt.Println("[X]", task.Description)
+        } else {
+            fmt.Println("[ ]", task.Description)
+        }
+
+        fmt.Println("    |-- ID:", task.ID)
+        fmt.Println("    |-- Status:", task.Status)
+        fmt.Println("    |-- Created At:", task.CreatedAt.Local().Format(time.RFC1123))
+        fmt.Println("    |-- Updated At:", task.UpdatedAt.Local().Format(time.RFC1123))
         fmt.Println()
     }
 }
