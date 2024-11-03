@@ -168,10 +168,11 @@ func processCommand(c command, t tasks) error {
             t.delete(args[0])
         case "list":
             if len(args) == 0 {
-                t.list(args[0])
+                t.list()
+                return nil
             }
 
-            t.list()
+            t.list(args[0])
         case "mark-done":
             if len(args) == 0 {
                 return errors.New("Failed to mark task as 'done' due to missing task ID")
