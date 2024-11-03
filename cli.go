@@ -56,7 +56,7 @@ func printHelp() {
     fmt.Println("  delete [id]  Delete an existing task -- task-cli delete 1")
     fmt.Println("  list [done|in-progress]  List tasks")
     fmt.Println("  mark-done [id]  Mark an existing task as done -- task-cli mark-done 2")
-    fmt.Println("  mark-on-progress [id]  Mark an existing task as in-progress -- task-cli mark-in-progress 3")
+    fmt.Println("  mark-in-progress [id]  Mark an existing task as in-progress -- task-cli mark-in-progress 3")
     fmt.Println("  update [id] [task]  Update an existing task -- task-cli update 1 \"Eat chocolate\"")
     fmt.Println("")
 }
