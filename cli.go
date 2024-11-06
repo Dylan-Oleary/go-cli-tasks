@@ -8,7 +8,6 @@ import (
 )
 
 type command struct {
-    // TODO ENUMS
     action string
     arguments []string
 }
