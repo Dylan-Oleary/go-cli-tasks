@@ -11,7 +11,6 @@ import (
 type task struct {
     ID string `json:"id"`
     Description string `json:"description"`
-    // TODO: Enums in Go?
     Status string `json:"status"`
     CreatedAt time.Time `json:"createdAt"`
     UpdatedAt time.Time `json:"updatedAt"`

@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-const FILE_NAME = "data.json"
+const FILE_NAME = "tasks.json"
 
 func readTasksFromFile() tasks {
     _, checkIfFileExistsError := os.Stat(FILE_NAME)
